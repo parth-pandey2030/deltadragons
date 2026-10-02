@@ -37,29 +37,3 @@ export default function addEvents() {
     </div>
   );
 }
-
-
-
-function SimpleForm() {
-  const [name, setName] = useState('');
-
-  const handleChange = (event) => {
-    // event.target.value extracts what the user typed
-    setName(event.target.value); 
-  };
-
-  const handleSubmit = (event) => {
-    event.preventDefault(); // Prevents the browser from reloading the page
-    alert(`Submitted Name: ${name}`);
-  };
-
-  return (
-    <form onSubmit={handleSubmit}>
-      <label>
-        Name:
-        <input type="text" value={name} onChange={handleChange} />
-      </label>
-      <button type="submit">Submit</button>
-    </form>
-  );
-}
