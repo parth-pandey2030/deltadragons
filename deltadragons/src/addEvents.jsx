@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './addEvents.css';
+
+const channel = new BroadcastChannel('EventChannel');
 
 export default function addEvents() {
   const [events, setEvents] = useState('');
