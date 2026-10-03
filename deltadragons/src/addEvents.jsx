@@ -1,17 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import './addEvents.css';
 
-const channel = new BroadcastChannel('EventChannel');
-
 export default function addEvents() {
   const [events, setEvents] = useState('');
 
   const handleSubmit = (event) => {
     event.preventDefault(); // prevent reload
-
-    // send data
-
-    setEvents('');
+    console.log('Submitted events:', events);
   };
 
   return (
@@ -29,7 +24,7 @@ export default function addEvents() {
             required 
             placeholder="Type events here..."
             value={events} // Bind the textarea value to React state
-            onChange={(e) => setMessage(e.target.value)} // Update state as user types
+            onChange={(e) => setEvents(e.target.value)} // Update state as user types
             style={{ width: '100%', maxWidth: '400px', padding: '8px' }}
           />
         </div>
