@@ -15,17 +15,14 @@ export default function About(TEAM) {
           <div>
             <h2>About us</h2>
             <p>
-              We are the Delta Dragons, a group of students who build robots for the FIRST Tech Challenge (FTC). Each
-              season a new game is announced, and we have a few months to design, build, program and drive a robot that
-              can play it.
+            Meet the Delta Dragons! We are a rookie FIRST Tech Challenge (FTC) robotics team based in Dunloggin Middle School, composed of 12 passionate student innovators. 
+            Building on our successful foundation in FIRST Lego League (FLL) last year, we are moving up to FTC to start actually building robots ourselves. 
+            Through our community outreach, we connect with local businesses to form mutually beneficial sponsorships. 
             </p>
+            <br />
             <p>
               Along the way we learn CAD, machining, programming in Java, and just as much about outreach, fundraising,
               and working together. Everyone on the team has a role, and every member gets hands-on time with the robot.
-            </p>
-            <p>
-              We also share what we know. We run demos for younger students and mentor newer teams, because FIRST is
-              about helping each other do well.
             </p>
           </div>
           <aside className="facts" aria-label="Team facts">
