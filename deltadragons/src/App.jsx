@@ -1,6 +1,8 @@
-import { Fragment, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import "./App.css";
 import DeltaLogo from "./DeltaLogo";
+import Progress, { money } from "./Progress";
+import About from "./About";
 
 /* ===== TEAM: edit this section ===== */
 const CONFIG = {
@@ -13,7 +15,7 @@ const CONFIG = {
 
 const TEAM = {
   name: "Delta Dragons",
-  number: "#00000",
+  number: "#37705",
   city: "Ellicott City, MD",
   founded: "2026",
   members: "12 students",
@@ -32,8 +34,6 @@ const EVENTS = [
 
 const AMOUNTS = [10, 25, 50, 100];
 /* ==================================== */
-
-const money = (n) => "$" + Number(n).toLocaleString("en-US");
 
 function Nav() {
   const links = [
@@ -77,49 +77,6 @@ function Hero() {
         <DeltaLogo />
       </div>
     </header>
-  );
-}
-
-function About() {
-  const facts = [
-    ["Team", TEAM.name],
-    ["FTC number", TEAM.number],
-    ["Based in", TEAM.city],
-    ["Founded", TEAM.founded],
-    ["Members", TEAM.members],
-    ["Subteams", "Build, Code, Design, Outreach"],
-  ];
-  return (
-    <section id="about">
-      <div className="wrap about">
-        <div>
-          <h2>About us</h2>
-          <p>
-            We are the Delta Dragons, a group of students who build robots for the FIRST Tech Challenge (FTC). Each
-            season a new game is announced, and we have a few months to design, build, program and drive a robot that
-            can play it.
-          </p>
-          <p>
-            Along the way we learn CAD, machining, programming in Java, and just as much about outreach, fundraising,
-            and working together. Everyone on the team has a role, and every member gets hands-on time with the robot.
-          </p>
-          <p>
-            We also share what we know. We run demos for younger students and mentor newer teams, because FIRST is
-            about helping each other do well.
-          </p>
-        </div>
-        <aside className="facts" aria-label="Team facts">
-          <dl>
-            {facts.map(([k, v]) => (
-              <Fragment key={k}>
-                <dt>{k}</dt>
-                <dd>{v}</dd>
-              </Fragment>
-            ))}
-          </dl>
-        </aside>
-      </div>
-    </section>
   );
 }
 
@@ -167,34 +124,6 @@ function Events() {
         </ul>
       </div>
     </section>
-  );
-}
-
-function Progress() {
-  const pct = Math.min(100, Math.round((CONFIG.raised / CONFIG.goal) * 100));
-  return (
-    <div className="card">
-      <h3>Our goal</h3>
-      <div
-        className="bar"
-        role="progressbar"
-        aria-valuemin={0}
-        aria-valuemax={100}
-        aria-valuenow={pct}
-        aria-label={pct + "% of fundraising goal"}
-      >
-        <i style={{ width: pct + "%" }} />
-      </div>
-      <div className="raised">
-        <span>{money(CONFIG.raised)} raised</span>
-        <span>Goal {money(CONFIG.goal)}</span>
-      </div>
-      <ul className="uses">
-        <li>$25 buys a set of motor mounts and hardware</li>
-        <li>$50 helps cover a competition fee</li>
-        <li>$100 buys a new sensor or a drivetrain part</li>
-      </ul>
-    </div>
   );
 }
 
