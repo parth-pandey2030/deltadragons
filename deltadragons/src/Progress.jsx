@@ -2,7 +2,8 @@ import React from 'react';
 
 export const money = (n) => "$" + Number(n).toLocaleString("en-US");
 
-export default function Progress(CONFIG) {
+export default function Progress(team_config) {
+    const CONFIG = team_config.CONFIG;
     const pct = Math.min(100, Math.round((CONFIG.raised / CONFIG.goal) * 100));
     
     return (

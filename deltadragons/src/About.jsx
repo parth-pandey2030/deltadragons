@@ -1,6 +1,7 @@
 import React, { Fragment } from "react";
 
-export default function About(TEAM) {
+export default function About(team) {
+    const TEAM = team.TEAM;
     const facts = [
       ["Team", TEAM.name],
       ["FTC number", TEAM.number],

@@ -3,6 +3,7 @@ import "./App.css";
 import DeltaLogo from "./DeltaLogo";
 import Progress, { money } from "./Progress";
 import About from "./About";
+import FIRST from "./assets/FIRSTLogo.svg";
 
 /* ===== TEAM: edit this section ===== */
 const CONFIG = {
@@ -75,6 +76,7 @@ function Hero() {
           </div>
         </div>
         <DeltaLogo />
+        <img src={FIRST} alt="FIRST" />
       </div>
     </header>
   );
@@ -210,7 +212,7 @@ function Fundraising() {
           and the team.
         </p>
         <div className="fgrid">
-          <Progress />
+          <Progress CONFIG={CONFIG} />
           <Give />
         </div>
       </div>
@@ -224,7 +226,7 @@ export default function App() {
       <Nav />
       <Hero />
       <main>
-        <About />
+        <About TEAM={TEAM}/>
         <Events />
         <Fundraising />
       </main>

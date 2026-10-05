@@ -2,10 +2,10 @@
 
 :root{
   --bg:#f3f7f5;--surface:#fff;--ink:#0d1f1c;--muted:#53665f;--line:#d3dfda;
-  --jade:#DC143C;--jade-ink:#fff;--gold:#f2b632;--hero:#0b2a26;--hero-ink:#eafaf4;
+  --jade:#0e8f6e;--jade-ink:#fff;--gold:#f2b632;--hero:#4a1220;--hero-ink:#eafaf4;
 }
 @media (prefers-color-scheme:dark){:root{
-  --bg:#09130f;--surface:#112019;--ink:#e8f4ef;--muted:#9bb3aa;--line:#24382f;--jade:#2fd0a3;--jade-ink:#06251c;--hero:#061a17;
+  --bg:#09130f;--surface:#112019;--ink:#e8f4ef;--muted:#9bb3aa;--line:#24382f;--jade:#2fd0a3;--jade-ink:#06251c;--hero:#2e0a14;
 }}
 html{scroll-behavior:smooth}
 *,*::before,*::after{box-sizing:border-box}
