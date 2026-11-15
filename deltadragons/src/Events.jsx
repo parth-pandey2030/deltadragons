@@ -2,7 +2,6 @@ import React, { useMemo } from 'react';
 
 const EVENTS = [
     // No events are currently scheduled. Add events here in the format below.
-    // { date: "2026-10-24", title: "Preseason scrimmage", place: "Local high school gym", type: "Scrimmage" }
 ]
 
 function EventItem({ event }) {
