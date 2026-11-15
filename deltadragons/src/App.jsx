@@ -1,18 +1,10 @@
-import { useMemo, useState } from "react";
 import "./App.css";
 import DeltaLogo from "./DeltaLogo";
-import Progress, { money } from "./Progress";
 import About from "./About";
+import Events from "./Events";
 import FIRST from "./assets/FIRSTLogo.svg";
-
-/* ===== TEAM: edit this section ===== */
-const CONFIG = {
-  paypal: "deltadragons", // paypal.me/YourPayPalName
-  venmo: "Your-Venmo-Name", // venmo.com/u/Your-Venmo-Name
-  cashapp: "YourCashtag", // cash.app/$YourCashtag (no $)
-  goal: 5000,
-  raised: 1250,
-};
+import Fundraiser from "./Fundraiser";
+import CONFIG from "./CONFIG";
 
 const TEAM = {
   name: "Delta Dragons",
@@ -24,17 +16,7 @@ const TEAM = {
   instagram: "www.instagram.com/deltadragonsdms",
 };
 
-const EVENTS = [
-  { date: "2026-10-24", title: "Preseason scrimmage", place: "Local high school gym", type: "Scrimmage" },
-  { date: "2026-11-14", title: "League meet 1", place: "Host school, your city", type: "Competition" },
-  { date: "2026-12-05", title: "League meet 2", place: "Host school, your city", type: "Competition" },
-  { date: "2026-12-12", title: "Robot demo day at the library", place: "Public library", type: "Outreach" },
-  { date: "2027-01-23", title: "League tournament", place: "Regional venue", type: "Competition" },
-  { date: "2027-02-27", title: "State championship", place: "State venue", type: "Competition" },
-];
-
-const AMOUNTS = [10, 25, 50, 100];
-/* ==================================== */
+const AMOUNTS = [10, 25, 50, 100]; // Edit
 
 function Nav() {
   const links = [
@@ -82,144 +64,6 @@ function Hero() {
   );
 }
 
-function EventItem({ event }) {
-  const d = new Date(event.date + "T00:00:00");
-  const month = d.toLocaleString("en-US", { month: "short" });
-  const full = d.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric", year: "numeric" });
-  return (
-    <li className="ev">
-      <div className="date" aria-hidden="true">
-        <small>{month}</small>
-        <strong>{d.getDate()}</strong>
-      </div>
-      <div>
-        <h3>{event.title}</h3>
-        <p>{full} · {event.place}</p>
-      </div>
-      <span className={"tag" + (event.type === "Competition" ? " comp" : "")}>{event.type}</span>
-    </li>
-  );
-}
-
-function Events() {
-  const upcoming = useMemo(() => {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    return EVENTS.filter((e) => new Date(e.date + "T00:00:00") >= today).sort((a, b) =>
-      a.date.localeCompare(b.date)
-    );
-  }, []);
-
-  return (
-    <section id="events" className="no-top">
-      <div className="wrap">
-        <h2>Upcoming events</h2>
-        <p className="lede">
-          Come watch a match, say hello, or help us out. Events that have passed disappear on their own.
-        </p>
-        <ul className="events">
-          {upcoming.length ? (
-            upcoming.map((e) => <EventItem key={e.date + e.title} event={e} />)
-          ) : (
-            <li className="empty">No events are scheduled right now. Check back soon.</li>
-          )}
-        </ul>
-      </div>
-    </section>
-  );
-}
-
-function Give() {
-  const [amount, setAmount] = useState(25);
-  const [custom, setCustom] = useState("");
-
-  const note = encodeURIComponent("Delta Dragons FTC donation");
-  const pay = [
-    ["pp", "PayPal", `https://www.paypal.me/${CONFIG.paypal}/${amount}`],
-    ["vm", "Venmo", `https://venmo.com/u/${CONFIG.venmo}?txn=pay&amount=${amount}&note=${note}`],
-    ["ca", "Cash App", `https://cash.app/$${CONFIG.cashapp}/${amount}`],
-  ];
-  const needsSetup = [CONFIG.paypal, CONFIG.venmo, CONFIG.cashapp].some((v) => /^Your/i.test(v));
-
-  const onCustom = (e) => {
-    setCustom(e.target.value);
-    const v = Math.floor(Number(e.target.value));
-    if (v >= 1) setAmount(v);
-  };
-
-  return (
-    <div className="card">
-      <h3>Give now</h3>
-      <div className="amts" role="group" aria-label="Donation amount">
-        {AMOUNTS.map((a) => (
-          <button
-            key={a}
-            type="button"
-            aria-pressed={a === amount && custom === ""}
-            onClick={() => {
-              setAmount(a);
-              setCustom("");
-            }}
-          >
-            {money(a)}
-          </button>
-        ))}
-      </div>
-
-      <label htmlFor="custom">Other amount ($)</label>
-      <input
-        id="custom"
-        className="cust"
-        type="number"
-        min={1}
-        step={1}
-        inputMode="numeric"
-        placeholder="Enter amount"
-        value={custom}
-        onChange={onCustom}
-      />
-
-      <div className="pay">
-        {pay.map(([cls, name, href]) => (
-          <a key={cls} className={cls} href={href} target="_blank" rel="noopener noreferrer">
-            <span>Pay with {name}</span>
-            <span>{money(amount)}</span>
-          </a>
-        ))}
-      </div>
-
-      <p className="note">
-        Payments open in the payment app with the amount filled in. Tell us your name in the note if you'd like a
-        thank-you.
-      </p>
-      {needsSetup && (
-        <p className="warn">
-          Team: add your real PayPal, Venmo and Cash App usernames in CONFIG at the top of this file to turn these
-          buttons on.
-        </p>
-      )}
-    </div>
-  );
-}
-
-function Fundraising() {
-  return (
-    <section id="donate" className="fund">
-      <div className="wrap">
-        <h2>Help fund our season</h2>
-        <p className="lede">
-          Registration fees, parts, tools, travel and tournament costs add up. Every gift goes straight to the robot
-          and the team.
-        </p>
-        <div className="fgrid">
-          <Progress CONFIG={CONFIG} />
-          <Give />
-        </div>
-      </div>
-    </section>
-  );
-}
-
 export default function App() {
   return (
     <>
@@ -228,7 +72,7 @@ export default function App() {
       <main>
         <About TEAM={TEAM}/>
         <Events />
-        <Fundraising />
+        <Fundraiser CONFIG={CONFIG} AMOUNTS={AMOUNTS}/>
       </main>
       <footer>
         <div className="wrap">

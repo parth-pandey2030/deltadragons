@@ -1,51 +1,53 @@
-import React, { useState, useEffect } from 'react';
-import addEvents from './addEvents';
+import React, { useMemo } from 'react';
 
-import { useEffect, useState } from 'react'
-import { supabase } from './supabase'
+const EVENTS = [
+    // No events are currently scheduled. Add events here in the format below.
+    // { date: "2026-10-24", title: "Preseason scrimmage", place: "Local high school gym", type: "Scrimmage" }
+]
 
-// The public page only reads; the database refuses writes from anyone who isn't on the team.
-function formatDate(d) {
-  // Add a time so the date isn't shifted by the visitor's timezone
-  return new Date(d + 'T00:00:00').toLocaleDateString(undefined, {
-    weekday: 'long', month: 'long', day: 'numeric', year: 'numeric',
-  })
-}
+function EventItem({ event }) {
+    const d = new Date(event.date + "T00:00:00");
+    const month = d.toLocaleString("en-US", { month: "short" });
+    const full = d.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric", year: "numeric" });
+    return (
+      <li className="ev">
+        <div className="date" aria-hidden="true">
+          <small>{month}</small>
+          <strong>{d.getDate()}</strong>
+        </div>
+        <div>
+          <h3>{event.title}</h3>
+          <p>{full} · {event.place}</p>
+        </div>
+        <span className={"tag" + (event.type === "Competition" ? " comp" : "")}>{event.type}</span>
+      </li>
+    );
+  }
 
 export default function Events() {
-  const [items, setItems] = useState([])
-  const [events, setEvents] = useState([])
-
-  useEffect(() => {
-    const today = new Date().toISOString().slice(0, 10)
-
-    supabase.from('items').select('*').order('id')
-      .then(({ data }) => setItems(data ?? []))
-
-    // Only upcoming events, soonest first
-    supabase.from('events').select('*').gte('event_date', today).order('event_date')
-      .then(({ data }) => setEvents(data ?? []))
-  }, [])
-
-  return (
-    <div>
-      <h2>Upcoming events</h2>
-      {events.length === 0 && <p>No upcoming events.</p>}
-      <ul>
-        {events.map(ev => (
-          <li key={ev.id}>
-            <strong>{ev.title}</strong>
-            <div>{formatDate(ev.event_date)}{ev.event_time && `, ${ev.event_time}`}</div>
-            {ev.location && <div>{ev.location}</div>}
-            {ev.description && <p>{ev.description}</p>}
-          </li>
-        ))}
-      </ul>
-
-      <h2>Items</h2>
-      <ul>
-        {items.map(i => <li key={i.id}><strong>{i.name}</strong>: {i.description}</li>)}
-      </ul>
-    </div>
-  )
-}
+    const upcoming = useMemo(() => {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      return EVENTS.filter((e) => new Date(e.date + "T00:00:00") >= today).sort((a, b) =>
+        a.date.localeCompare(b.date)
+      );
+    }, []);
+  
+    return (
+      <section id="events" className="no-top">
+        <div className="wrap">
+          <h2>Upcoming events</h2>
+          <p className="lede">
+            Come watch a match, say hello, or help us out. Events that have passed disappear on their own.
+          </p>
+          <ul className="events">
+            {upcoming.length ? (
+              upcoming.map((e) => <EventItem key={e.date + e.title} event={e} />)
+            ) : (
+              <li className="empty">No events are scheduled right now. Check back soon.</li>
+            )}
+          </ul>
+        </div>
+      </section>
+    );
+  }
