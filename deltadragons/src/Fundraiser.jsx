@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Progress, { money } from "./Progress";
   
-export default function Fundraiser({CONFIG}, {AMOUNTS}) {
+export default function Fundraiser({CONFIG, AMOUNTS = []}) {
     let Give = () => {
         const [amount, setAmount] = useState(25);
         const [custom, setCustom] = useState("");
